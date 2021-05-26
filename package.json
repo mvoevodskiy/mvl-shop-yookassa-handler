@@ -1,17 +1,20 @@
 {
-  "name": "mvl-blank-project",
+  "name": "mvl-shop-yookassa-handler",
   "version": "0.0.1",
   "description": "",
-  "main": "src/mvlblankproject.js",
+  "main": "src/yookassa.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mvloader": "^1.0.7",
-    "mvtools": "^1.0.18",
-    "mvl-db-handler": "^1.0.6"
+    "@a2seven/yoo-checkout": "^1.1.2",
+    "mvloader": "^1.0.9",
+    "mvtools": "^1.0.19"
   },
   "devDependencies": {},
+  "peerDependencies": {
+    "mvl-shop-semis": "^1.0.0"
+  },
   "author": "mvoevodskiy",
   "license": "ISC"
 }
