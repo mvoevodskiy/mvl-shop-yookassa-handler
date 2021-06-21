@@ -1,6 +1,6 @@
 {
   "name": "mvl-shop-yookassa-handler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "src/yookassa.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "dependencies": {
     "@a2seven/yoo-checkout": "^1.1.2",
     "mvloader": "^1.0.10",
-    "mvtools": "^1.1.2",
+    "mvtools": "^1.1.2"
   },
   "devDependencies": {},
   "peerDependencies": {
