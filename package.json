@@ -8,12 +8,12 @@
   },
   "dependencies": {
     "@a2seven/yoo-checkout": "^1.1.2",
-    "mvloader": "^1.0.9",
-    "mvtools": "^1.0.19"
+    "mvloader": "^1.0.10",
+    "mvtools": "^1.1.2",
   },
   "devDependencies": {},
   "peerDependencies": {
-    "mvl-shop-semis": "^1.0.0"
+    "mvl-shop-semis": "^1.1.0"
   },
   "author": "mvoevodskiy",
   "license": "ISC"
