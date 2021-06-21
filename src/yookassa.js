@@ -31,7 +31,8 @@ class mvlShopYookassa extends MVLoaderBase {
   }
 
   async initFinish () {
-    super.initFinish()
+    await super.initFinish()
+    await this.initFillDB()
   }
 
   cost (payment, order) {
@@ -230,6 +231,23 @@ class mvlShopYookassa extends MVLoaderBase {
 
   getImdempotence (order) {
     return [order.id, order.StatusId, order.CustomerId, (new Date()).getDate(), (order.extended.customerPaymentKey || '!')].join('-')
+  }
+
+  async initFillDB () {
+    if (!(await this.App.DB.models.mvlShopPayment.count({ where: { controller: 'mvlShopYookassa' } }))) {
+      const promises = []
+      const defaults = require('./defaultvalues')
+      try {
+        for (const object of defaults) {
+          promises.push(
+            (() => this.App.DB.models.mvlShopPayment.create(object))()
+          )
+        }
+      } catch (e) {
+        console.log(e)
+      }
+      return Promise.allSettled(promises)
+    }
   }
 }
 
