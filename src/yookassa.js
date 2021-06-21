@@ -76,10 +76,11 @@ class mvlShopYookassa extends MVLoaderBase {
 
   async makePayment (order, payment) {
     // console.log('CUSTOMER PAYMENT SAVE', order.extended.customerPaymentSave, 'EMPTY? ', mt.empty(order.extended.customerPaymentSave))
+    // console.log('ORDER EXTENDED', order.extended)
     // console.log('CUSTOMER PAYMENT KEY', order.extended.customerPaymentKey, 'EMPTY? ', mt.empty(order.extended.customerPaymentKey))
-    const createPayload = await this.prepareCommonPayload(order)
-    if (!mt.empty(order.extended.customerPaymentKey)) {
-      const customerPayment = await this.App.ext.controllers.mvlShopCustomerPayment.get(order.extended.customerPaymentKey)
+    const createPayload = await this.prepareCommonPayload(order, payment)
+    if (!mt.empty(order.extended.customerPaymentKey) || !mt.empty(order.extended.customerPaymentId)) {
+      const customerPayment = await this.App.ext.controllers.mvlShopCustomerPayment.get(order.extended.customerPaymentId || order.extended.customerPaymentKey)
       if (customerPayment) createPayload.payment_method_id = customerPayment.token
     }
     if (mt.empty(createPayload.payment_method_id)) {
@@ -87,7 +88,7 @@ class mvlShopYookassa extends MVLoaderBase {
         type: payment.extended?.type || this.config.type
       }
     }
-    console.log('YOOKASSA. CREATE PAYLOAD', createPayload)
+    // console.log('YOOKASSA. CREATE PAYLOAD', createPayload)
     const yooResponse = await this.createYookassaPayment(createPayload, order)
     if (yooResponse.success) {
       await this.saveExtended(order, { id: yooResponse.data.id })
@@ -129,7 +130,7 @@ class mvlShopYookassa extends MVLoaderBase {
   }
 
   async webhook (cbData) {
-    console.log(cbData)
+    // console.log(cbData)
     let order = null
     if (typeof cbData === 'string') {
       try {
@@ -185,7 +186,7 @@ class mvlShopYookassa extends MVLoaderBase {
     return order
   }
 
-  async prepareCommonPayload (order) {
+  async prepareCommonPayload (order, payment) {
     // console.log('YOOKASSA. PREPARE COMMON PAYLOAD. ORDER', order)
     return {
       amount: {
@@ -200,7 +201,7 @@ class mvlShopYookassa extends MVLoaderBase {
         type: 'redirect',
         return_url: await this.App.ext.controllers.mvlShopOrder.getPageLink(true, order)
       },
-      save_payment_method: !mt.empty(order.extended.customerPaymentSave)
+      save_payment_method: !mt.empty(payment.extended.save_payment_method)
     }
   }
 
