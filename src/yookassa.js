@@ -86,7 +86,7 @@ class mvlShopYookassa extends MVLoaderBase {
     }
     if (mt.empty(createPayload.payment_method_id)) {
       createPayload.payment_method_data = {
-        type: payment.extended?.type || this.config.type
+        type: !mt.empty(payment.extended) ? (payment.extended.type || this.config.type) : this.config.type
       }
     }
     // console.log('YOOKASSA. CREATE PAYLOAD', createPayload)
